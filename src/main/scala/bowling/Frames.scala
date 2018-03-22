@@ -7,11 +7,12 @@ private[bowling] trait Frames {
 }
 
 private[bowling] object Frames {
-  private type FrameNumber = Int
+  private[bowling] val FrameLimitMsg = "Number of frames must not exceed 10"
+  private[bowling] type FrameNumber = Int
 
   private[bowling] def apply(rollsStr: String): Either[String, Frames] = {
     val fs = new FramesImpl(rollsStr)
-    if (fs.size > 10) Left("Number of frames must not exceed 10")
+    if (fs.size > 10) Left(FrameLimitMsg)
     else Right(fs)
   }
 

@@ -1,6 +1,8 @@
 package bowling
 
 import org.scalatest.FunSuite
+import Frames.FrameLimitMsg
+import Frame.PinLimitMsg
 
 class BowlingScoreSuite extends FunSuite {
   def scoreTest(rollsStr: String, scoreOpt: Either[String, Int]) =
@@ -27,7 +29,10 @@ class BowlingScoreSuite extends FunSuite {
   test("mix strike and regular") {
     scoreTest("X X X 45 X X X X X 81", Right(228))
   }
-  test("test # of frames limit validation") {
-    scoreTest("X X X 45 X X X X X 81 12", Left("Number of frames must not exceed 10"))
+  test("frames-count-limit validation") {
+    scoreTest("X X X 45 X X X X X 81 12", Left(FrameLimitMsg))
+  }
+  test("knocked-down-pin-count-limit validation") {
+    scoreTest("X X X 47 X X X X X 81", Left(PinLimitMsg))
   }
 }
