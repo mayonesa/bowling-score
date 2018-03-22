@@ -1,17 +1,20 @@
 package bowling
 
+import scala.annotation.tailrec
 import Frames.FrameNumber
 
 object BowlingScore {
-  def score(rollsStr: String): Either[String, Int] =
+  def score(rollsStr: String): Either[String, Either[(Int, FrameNumber), Int]] =
     for {
       frames <- Frames(rollsStr)
-      scoreOpt <- score(frames)
-    } yield scoreOpt
+      initScore <- initScore(frames)
+    } yield if (frames.size == 10) Right(initScore + frames(10).tenthScore)
+    else Left((initScore, frames.size))
 
-  private def score(frames: Frames) = {
+  private def initScore(frames: Frames) = {
+    @tailrec
     def loop(i: FrameNumber, accOpt: Either[String, Int]): Either[String, Int] =
-      if (i == 10) accOpt.map(_ + frames(10).tenthScore)
+      if (i == frames.size) accOpt
       else {
         val frame = frames(i)
         lazy val nextFrame = frames(i + 1)
