@@ -35,4 +35,7 @@ class BowlingScoreSuite extends FunSuite {
   test("knocked-down-pin-count-limit validation") {
     scoreTest("X X X 47 X X X X X 81", Left(PinLimitMsg))
   }
+  test("frames-count-limit validation even when knocked-down-pin-count-limit violated") {
+    scoreTest("X X X 47 X X X X X 81 12", Left(FrameLimitMsg))
+  }
 }
