@@ -13,8 +13,8 @@ private[bowling] abstract class Frame(frameStr: String) {
 
 private[bowling] object Frame {
   private[bowling] val PinLimitMsg = "Number of pins knocked down must not exceed 10 per frame"
-  private[bowling] def apply(frameStr: String): Frame = new TwoFrame(frameStr)
-  private[bowling] def tenth(frameStr: String): Frame = new TenthFrame(frameStr)
+  private[bowling] def apply(frameStr: String, tenth: Boolean = false): Frame =
+    if (tenth) new TenthFrame(frameStr) else new TwoFrame(frameStr)
   private def simpleScore(c: Char) =
     c match {
       case '-'       => 0

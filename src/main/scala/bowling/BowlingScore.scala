@@ -8,13 +8,13 @@ object BowlingScore {
     for {
       frames <- Frames(rollsStr)
       initScore <- initScore(frames)
-    } yield if (frames.size == 10) Right(initScore + frames(10).tenthScore)
-    else Left((initScore, frames.size))
+    } yield if (frames.scorableSize == 10) Right(initScore + frames(10).tenthScore)
+    else Left((initScore, frames.scorableSize))
 
   private def initScore(frames: Frames) = {
     @tailrec
     def loop(i: FrameNumber, accOpt: Either[String, Int]): Either[String, Int] =
-      if (i == frames.size) accOpt
+      if (i == frames.scorableSize) accOpt
       else {
         val frame = frames(i)
         lazy val nextFrame = frames(i + 1)
